@@ -1,0 +1,47 @@
+{
+  "trees": [
+    {
+      "id": "JthDbk0pChY",
+      "name": "Backend Test Family",
+      "salt": "75f2be8907d42944496dd5c00855a005",
+      "passcodeHash": "dff24e1dc59895ad06eca224819fcdc1dad151b141423c5529c132207b97c8c8",
+      "createdAt": 1780508710502,
+      "updatedAt": 1780508713940,
+      "data": {
+        "treeName": "Backend Test Family",
+        "people": [
+          {
+            "id": "p_mpycwza0_hqh3zo",
+            "name": "Meera Kapoor",
+            "born": "1980",
+            "place": "",
+            "notes": "",
+            "relationship": "Start a new tree",
+            "birthOrder": "1st born",
+            "createdAt": "2026-06-03T17:45:12.600Z"
+          },
+          {
+            "id": "p_mpycx09s_2mblxp",
+            "name": "Suresh Kapoor",
+            "born": "",
+            "place": "",
+            "notes": "",
+            "relationship": "Father",
+            "birthOrder": "",
+            "createdAt": "2026-06-03T17:45:13.888Z"
+          }
+        ],
+        "parentLinks": [
+          {
+            "parent": "p_mpycx09s_2mblxp",
+            "child": "p_mpycwza0_hqh3zo",
+            "relation": "father"
+          }
+        ],
+        "partnerLinks": [],
+        "siblingLinks": [],
+        "selectedId": "p_mpycx09s_2mblxp"
+      }
+    }
+  ]
+}

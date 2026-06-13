@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: family-tree-builder
+    runtime: python
+    plan: starter
+    buildCommand: ""
+    startCommand: python server.py --host 0.0.0.0
+    healthCheckPath: /api/health
+    envVars:
+      - key: FAMILY_TREE_DATA_DIR
+        value: /opt/render/project/src/data
+    disk:
+      name: family-tree-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

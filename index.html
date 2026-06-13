@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Family Tree Builder</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="panel">
+        <header class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <h1>Family Tree</h1>
+            <p>Build every branch, generation by generation.</p>
+          </div>
+        </header>
+
+        <section class="tool-section">
+          <h2>Tree access</h2>
+          <div class="tree-manager">
+            <label>
+              Tree name
+              <input id="treeNameInput" type="text" autocomplete="off" placeholder="Patel family">
+            </label>
+            <label>
+              4-digit passcode
+              <input id="passcodeInput" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="1234">
+            </label>
+            <p class="status-line" id="accessStatus">Create a tree with a 4-digit passcode</p>
+            <div class="compact-actions">
+              <button id="createTreeButton" type="button">Create tree</button>
+              <button id="unlockTreeButton" type="button">Unlock edits</button>
+            </div>
+            <div class="compact-actions">
+              <button id="saveTreeButton" type="button">Save changes</button>
+              <button id="newTreeButton" type="button">New tree</button>
+            </div>
+            <button id="deleteTreeButton" type="button">Delete tree</button>
+            <div id="savedTreesList" class="saved-trees-list" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="tool-section">
+          <h2>Add someone</h2>
+          <form id="personForm" class="person-form">
+            <label>
+              Full name
+              <input id="personName" name="name" type="text" autocomplete="off" required placeholder="Asha Raman">
+            </label>
+            <div class="field-row">
+              <label>
+                Born
+                <input id="personBorn" name="born" type="text" autocomplete="off" placeholder="1974">
+              </label>
+              <label>
+                Place
+                <input id="personPlace" name="place" type="text" autocomplete="off" placeholder="Chennai">
+              </label>
+            </div>
+            <label>
+              Notes
+              <textarea id="personNotes" name="notes" rows="3" placeholder="Stories, occupations, memories"></textarea>
+            </label>
+            <label>
+              Relationship to selected person
+              <select id="relationshipType" name="relationship">
+                <option value="root">Start a new tree</option>
+                <option value="father">Father</option>
+                <option value="mother">Mother</option>
+                <option value="parent">Parent</option>
+                <option value="grandfather">Grandfather</option>
+                <option value="grandmother">Grandmother</option>
+                <option value="elder_sister">Elder sister</option>
+                <option value="younger_sister">Younger sister</option>
+                <option value="elder_brother">Elder brother</option>
+                <option value="younger_brother">Younger brother</option>
+                <option value="sibling">Sibling</option>
+                <option value="partner">Partner</option>
+                <option value="child">Child</option>
+                <option value="son">Son</option>
+                <option value="daughter">Daughter</option>
+                <option value="grandchild">Grandchild</option>
+              </select>
+            </label>
+            <label>
+              Birth order / extra detail
+              <input id="birthOrderInput" name="birthOrder" type="text" autocomplete="off" placeholder="1st born, 2nd born, twin">
+            </label>
+            <button class="primary-action" type="submit">
+              <span aria-hidden="true">+</span>
+              Add to tree
+            </button>
+          </form>
+        </section>
+
+        <section class="tool-section selected-card" id="selectedCard">
+          <h2>Selected person</h2>
+          <p class="muted">Pick a person in the tree to connect relatives.</p>
+        </section>
+
+        <section class="tool-section edit-section">
+          <h2>Update selected person</h2>
+          <form id="editForm" class="person-form">
+            <label>
+              Full name
+              <input id="editName" name="name" type="text" autocomplete="off" required placeholder="Select someone first">
+            </label>
+            <div class="field-row">
+              <label>
+                Born
+                <input id="editBorn" name="born" type="text" autocomplete="off">
+              </label>
+              <label>
+                Place
+                <input id="editPlace" name="place" type="text" autocomplete="off">
+              </label>
+            </div>
+            <div class="field-row">
+              <label>
+                Relationship detail
+                <input id="editRelationship" name="relationship" type="text" autocomplete="off" placeholder="Father, elder sister">
+              </label>
+              <label>
+                Birth order
+                <input id="editBirthOrder" name="birthOrder" type="text" autocomplete="off" placeholder="1st born">
+              </label>
+            </div>
+            <label>
+              Notes
+              <textarea id="editNotes" name="notes" rows="3"></textarea>
+            </label>
+            <div class="compact-actions">
+              <button class="primary-action" id="updatePersonButton" type="submit">Update person</button>
+              <button id="deletePersonButton" type="button">Delete</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="tool-section">
+          <h2>People</h2>
+          <label class="search-label">
+            Search
+            <input id="searchInput" type="search" autocomplete="off" placeholder="Find a family member">
+          </label>
+          <div id="peopleList" class="people-list" aria-live="polite"></div>
+        </section>
+
+        <section class="tool-section actions">
+          <button id="exportButton" type="button">Export JSON</button>
+          <label class="file-action">
+            Import JSON
+            <input id="importFile" type="file" accept="application/json">
+          </label>
+          <button id="resetButton" type="button">Reset</button>
+        </section>
+      </aside>
+
+      <section class="workspace" aria-label="Family tree workspace">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Interactive builder</p>
+            <h2 id="treeTitle">Your family tree</h2>
+          </div>
+          <div class="stats" aria-label="Tree statistics">
+            <span><strong id="personCount">0</strong> people</span>
+            <span><strong id="generationCount">0</strong> generations</span>
+          </div>
+        </div>
+
+        <div class="canvas-wrap">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-visual" aria-hidden="true">
+              <div class="sun"></div>
+              <div class="hill"></div>
+              <div class="trunk"></div>
+              <div class="leaf leaf-one"></div>
+              <div class="leaf leaf-two"></div>
+              <div class="leaf leaf-three"></div>
+            </div>
+            <h2>Start with one person</h2>
+            <p>Add yourself, a parent, or an elder relative. Then select that person and keep adding parents, grandparents, siblings, children, and grandchildren.</p>
+          </div>
+          <div id="treeCanvas" class="tree-canvas" aria-live="polite">
+            <svg id="linkLayer" class="link-layer" aria-hidden="true"></svg>
+            <div id="nodeLayer" class="node-layer"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

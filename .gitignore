@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+Microsoft/
+server.log
+server-error.log
+cert.pem
+key.pem
