@@ -5,3 +5,10 @@ server.log
 server-error.log
 cert.pem
 key.pem
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
