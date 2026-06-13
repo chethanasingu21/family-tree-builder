@@ -4,8 +4,17 @@ const api = {
       headers: { "Content-Type": "application/json", ...(options.headers || {}) },
       ...options,
     });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "Something went wrong");
+    const text = await response.text();
+    let data = {};
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      data = { error: text };
+    }
+    if (!response.ok) {
+      const message = data.error || data.message || `Request failed with status ${response.status}`;
+      throw new Error(message);
+    }
     return data;
   },
   listTrees() {

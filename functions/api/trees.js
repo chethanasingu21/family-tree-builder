@@ -3,9 +3,15 @@ import { createId, createSalt, json, missingDb, nowMs, parseTree, passcodeHash, 
 export async function onRequestGet({ env }) {
   if (!env.DB) return missingDb();
 
-  const { results } = await env.DB.prepare(
-    "SELECT id, name, data, created_at, updated_at FROM trees ORDER BY updated_at DESC"
-  ).all();
+  let results = [];
+  try {
+    const response = await env.DB.prepare(
+      "SELECT id, name, data, created_at, updated_at FROM trees ORDER BY updated_at DESC"
+    ).all();
+    results = response.results;
+  } catch (error) {
+    return json({ error: `D1 database error: ${error.message}` }, 500);
+  }
 
   return json({
     trees: results.map((row) => {
@@ -43,11 +49,15 @@ export async function onRequestPost({ request, env }) {
     selectedId: null,
   };
 
-  await env.DB.prepare(
-    "INSERT INTO trees (id, name, salt, passcode_hash, data, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
-  )
-    .bind(id, treeName, salt, await passcodeHash(passcode, salt), JSON.stringify(data), timestamp, timestamp)
-    .run();
+  try {
+    await env.DB.prepare(
+      "INSERT INTO trees (id, name, salt, passcode_hash, data, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    )
+      .bind(id, treeName, salt, await passcodeHash(passcode, salt), JSON.stringify(data), timestamp, timestamp)
+      .run();
+  } catch (error) {
+    return json({ error: `D1 database error: ${error.message}` }, 500);
+  }
 
   return json({
     tree: {
